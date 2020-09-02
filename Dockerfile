@@ -8,7 +8,7 @@ ENV PYTHONBUFFERED 1
 
 RUN apk add --update --no-cache postgresql-client
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
+    gcc postgresql-dev musl-dev
 
 COPY ./cfg /cfg
 RUN python -m pip install -r /cfg/requirements.txt
