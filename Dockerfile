@@ -10,8 +10,8 @@ RUN apk add --update --no-cache postgresql-client
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
     gcc postgresql-dev musl-dev
 
-COPY ./cfg /cfg
-RUN python -m pip install -r /cfg/requirements.txt
+COPY ./requirements.txt /requirements.txt
+RUN python -m pip install -r /requirements.txt
 
 RUN apk del .tmp-build-deps
 
