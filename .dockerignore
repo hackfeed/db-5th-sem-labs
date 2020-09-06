@@ -1,2 +1,5 @@
 # Database data
 data/db
+
+# Data to parse
+dbdata/

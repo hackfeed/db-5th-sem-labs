@@ -130,3 +130,6 @@ dmypy.json
 
 # PostgreSQL mapped data
 data/db
+
+# Data to parse
+dbdata/
