@@ -1,0 +1,56 @@
+.query-form {
+  width: 200rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
+}
+
+.form-control {
+  margin: 1rem 0;
+}
+
+.form-control label,
+.form-control input,
+.form-control textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.form-control input {
+  height: 2rem;
+}
+
+.form-control textarea {
+  height: 10rem;
+}
+
+.form-control input,
+.form-control textarea {
+  border: 1px solid black;
+  font: inherit;
+  border-radius: 2px;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+  outline-color: grey;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font: inherit;
+  border: 1px solid white;
+  color: white;
+  background: black;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: white;
+  color: black;
+}

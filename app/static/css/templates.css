@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "Consolas";
+  src: url("/static/fonts/consolas.ttf");
+}
+
+body {
+  background-color: black;
+  margin: 0em;
+  font-family: "Consolas";
+  color: white;
+}
+
+.header_nav {
+  background-color: black;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 3rem;
+  border-bottom: 2px solid white;
+}
+
+.nav_panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  margin-top: 1rem;
+}
+
+.nav_panel li {
+  padding-right: 1rem;
+}
+
+.centered {
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+.headafter {
+  padding-top: 3rem;
+}
+
+.title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 16px 0px;
+}
+
+.footer {
+  background-color: black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  border-top: 2px solid white;
+  text-align: center;
+}
+
+.link_hovered {
+  color: red;
+  transition: color 0.3s ease-out;
+}
+
+.link_unhovered {
+  color: white;
+  transition: color 0.3s ease-out;
+}
