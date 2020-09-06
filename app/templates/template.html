@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Курс "Базы данных"</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/template.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" />
+    <link
+      rel="shortcut icon"
+      type="image.png"
+      href="{{ url_for('static', filename='images/favicon.png') }}"
+    />
+  </head>
+  <body>
+    <header class="header_nav">
+      <nav class="nav_panel">
+        <li><a class="link" href="{{ url_for('get_index') }}">Create Query</a></li>
+      </nav>
+    </header>
+    {% block content %} {% endblock %}
+    <div class="footer">
+      <p>
+        Designed and developed by
+        <a class="link" target="_blank" href="https://github.com/hackfeed">@hackfeed</a> for
+        Database Course, ICS7, 2020
+      </p>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

@@ -1,15 +1,17 @@
-import os
-import sys
+""" Database operations. """
+
 import time
 
 import psycopg2
 
 
-def connect_to_postgres(dbname, user, host, password):
-    postgres = None
-    while not postgres:
+def connect_to_db(dbname, user, host, password):
+    """ Establish the connection to PostgreSQL. """
+
+    conn = None
+    while not conn:
         try:
-            postgres = psycopg2.connect(
+            conn = psycopg2.connect(
                 dbname=dbname,
                 user=user,
                 host=host,
@@ -18,26 +20,28 @@ def connect_to_postgres(dbname, user, host, password):
         except psycopg2.OperationalError:
             time.sleep(1)
 
-    return postgres
+    return conn
 
 
-def execute_query(postgres, query):
+def execute_query(conn, query):
+    """ Execute SQL-query. """
+
     query_success = True
     query_result = None
 
-    cursor = postgres.cursor()
+    cursor = conn.cursor()
     try:
         cursor.execute(query)
     except:
         query_success = False
-        postgres.rollback()
+        conn.rollback()
         cursor.close()
 
         return query_success, query_result
 
     if query.lower().startswith("select"):
         query_result = cursor.fetchall()
-    postgres.commit()
+    conn.commit()
     cursor.close()
 
     return query_success, query_result

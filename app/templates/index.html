@@ -1,44 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Курс "Базы данных"</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/templates.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" />
-  </head>
-  <body>
-    <header class="header_nav">
-      <nav class="nav_panel">
-        <li><a class="link" href="{{ url_for('get_index') }}">Create Query</a></li>
-      </nav>
-    </header>
-    <h1 class="title headafter" id="query_message">{{ message }}</h1>
-    <form class="query-form" method="POST" action="/query">
-      <div class="form-control centered">
-        <input
-          type="text"
-          placeholder="Place your SQL-query here"
-          name="query"
-          value="{{ query }}"
-        />
-        <button class="btn" type="submit">Run Query</button>
-      </div>
-    </form>
-    <h1 class="title headafter" id="query_result">Query Result</h1>
-    <div class="query-form">
-      <div class="form-control centered">
-        <textarea placeholder="Your SQL-query result" name="query">{{ result }}</textarea>
-        <button class="btn">Clear Query Result</button>
-      </div>
-    </div>
-    <div class="footer">
-      <p>
-        Designed and developed by
-        <a class="link" target="_blank" href="https://github.com/hackfeed">@hackfeed</a> for
-        Database Course, ICS7, 2020
-      </p>
-    </div>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-  </body>
-</html>
+{% extends "template.html" %} {% block content %}
+<h1 class="title headafter" id="query_message">{{ message }}</h1>
+<form class="query-form" method="POST" action="/query">
+  <div class="form-control centered">
+    <input type="text" placeholder="Place your SQL-query here" name="query" value="{{ query }}" />
+    <button class="btn" type="submit">Run Query</button>
+  </div>
+</form>
+<h1 class="title headafter" id="query_result">Query Result</h1>
+<div class="query-form">
+  <div class="form-control centered">
+    <textarea placeholder="Your SQL-query result" name="query">{{ result }}</textarea>
+    <button class="btn">Clear Query Result</button>
+  </div>
+</div>
+{% endblock %}
