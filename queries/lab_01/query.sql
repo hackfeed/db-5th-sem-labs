@@ -1,7 +1,8 @@
+DROP DATABASE IF EXISTS dbcourse;
 CREATE DATABASE dbcourse;
 \c dbcourse;
 
-CREATE TABLE neighbourhoods (neighbourhood varchar PRIMARY KEY);
+CREATE TABLE neighbourhoods (neighbourhood VARCHAR PRIMARY KEY);
 COPY neighbourhoods FROM '/dbdata/neighbourhoods.csv' DELIMITER ',' CSV HEADER;
 
 CREATE TABLE listings (
@@ -16,7 +17,7 @@ CREATE TABLE listings (
     price DECIMAL(6,2), 
     minimum_nights INT, 
     number_of_reviews INT, 
-    last_review TIMESTAMP, 
+    last_review DATE, 
     reviews_per_month DECIMAL(5,2), 
     calculated_host_listings_count INT, 
     availability_365 INT, 
@@ -27,7 +28,7 @@ COPY listings FROM '/dbdata/listings.csv' DELIMITER ',' CSV HEADER;
 CREATE TABLE reviews (
     listing_id INT NOT NULL, 
     id INT PRIMARY KEY, 
-    date TIMESTAMP NOT NULL, 
+    date DATE NOT NULL, 
     reviewer_id INT NOT NULL, 
     reviewer_name VARCHAR NOT NULL, 
     comments VARCHAR NOT NULL, 
@@ -37,7 +38,7 @@ COPY reviews FROM '/dbdata/reviews.csv' DELIMITER ',' CSV HEADER;
 
 CREATE TABLE calendar (
     listing_id INT NOT NULL, 
-    date TIMESTAMP NOT NULL, 
+    date DATE NOT NULL, 
     available bool NOT NULL, 
     price DECIMAL(6,2), 
     FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE
