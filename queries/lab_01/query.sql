@@ -2,7 +2,11 @@ DROP DATABASE IF EXISTS dbcourse;
 CREATE DATABASE dbcourse;
 \c dbcourse;
 
-CREATE TABLE neighbourhoods (neighbourhood VARCHAR PRIMARY KEY);
+CREATE TABLE neighbourhoods (
+    neighbourhood VARCHAR PRIMARY KEY,
+    rating DECIMAL(4,2) NOT NULL,
+    chairman VARCHAR NOT NULL
+);
 COPY neighbourhoods FROM '/dbdata/neighbourhoods.csv' DELIMITER ',' CSV HEADER;
 
 CREATE TABLE listings (
