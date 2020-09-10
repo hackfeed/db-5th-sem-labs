@@ -5,7 +5,8 @@ CREATE DATABASE dbcourse;
 CREATE TABLE neighbourhoods (
     neighbourhood VARCHAR PRIMARY KEY,
     rating DECIMAL(4,2) NOT NULL,
-    chairman VARCHAR NOT NULL
+    chairman VARCHAR NOT NULL,
+    chairman_phone VARCHAR(15) NOT NULL
 );
 COPY neighbourhoods FROM '/dbdata/neighbourhoods.csv' DELIMITER ',' CSV HEADER;
 
@@ -18,7 +19,7 @@ CREATE TABLE listings (
     latitude DECIMAL(16,14),  
     longitude DECIMAL(16,14), 
     room_type VARCHAR, 
-    price DECIMAL(6,2), 
+    price DECIMAL(6,2) CHECK (price >= 0), 
     minimum_nights INT, 
     number_of_reviews INT, 
     last_review DATE, 
@@ -44,7 +45,7 @@ CREATE TABLE calendar (
     listing_id INT NOT NULL, 
     date DATE NOT NULL, 
     available bool NOT NULL, 
-    price DECIMAL(6,2), 
+    price DECIMAL(6,2) CHECK (price >= 0), 
     FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE
 );
 COPY calendar FROM '/dbdata/calendar.csv' DELIMITER ',' CSV HEADER;
