@@ -3,6 +3,7 @@
 import time
 
 import psycopg2
+from tabulate import tabulate
 
 
 def connect_to_db(dbname, user, host, password):
@@ -23,6 +24,12 @@ def connect_to_db(dbname, user, host, password):
     return conn
 
 
+def pretty_query(cursor, query):
+    """ Return pretty format for psycopg2 query fetch. """
+
+    return tabulate(query, headers=[desc[0] for desc in cursor.description], tablefmt="psql")
+
+
 def execute_query(conn, query):
     """ Execute SQL-query. """
 
@@ -40,7 +47,8 @@ def execute_query(conn, query):
         return query_success, query_result
 
     if query.lower().startswith("select"):
-        query_result = cursor.fetchall()
+        query_result = pretty_query(cursor, cursor.fetchall())
+
     conn.commit()
     cursor.close()
 
