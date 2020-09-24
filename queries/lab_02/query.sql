@@ -104,15 +104,16 @@ WITH everyday_best_listings (name, neighbourhood, rating, availability_365) AS (
 )
 SELECT * FROM everyday_best_listings;
 -- Инструкция SELECT, использующая рекурсивное обобщенное табличное выражение.
--- Вывести сумму жилья типа 'Entire home/apt'.
-WITH RECURSIVE room_type_price (room_type, price) AS (
-    SELECT room_type, price FROM listings
-    WHERE room_type = 'Entire home/apt'
+-- Проверить, можно ли с соседства Centrum-Oost добраться до De Aker - Nieuw Sloten не более 
+-- чем за 5 шагов.
+WITH RECURSIVE all_neighbours (id, neighbourhood) AS (
+    SELECT id, neighbourhood, 0 AS level FROM neighbourhoods
+    WHERE neighbourhood = 'Centrum-Oost'
     UNION ALL
-    SELECT rtp.room_type, rtp.price FROM room_type_price rtp
-    WHERE room_type = rtp.room_type 
+    SELECT nbh.id, nbh.neighbourhood, level + 1 FROM neighbourhoods nbh
+    JOIN all_neighbours an ON nbh.id = an.id + 1 AND level < 5
 )
-SELECT SUM(price) FROM room_type_price;
+SELECT id, neighbourhood FROM all_neighbours WHERE neighbourhood = 'De Aker - Nieuw Sloten';
 -- Оконные функции. Использование конструкций MIN/MAX/AVG OVER().
 -- Выисляет среднюю цену типа жилья.
 SELECT DISTINCT name, room_type, AVG(price) OVER(PARTITION BY room_type) AS avg_price FROM listings;
@@ -128,4 +129,4 @@ WITH test_deleted AS
 test_inserted AS
 (SELECT name, surname, ROW_NUMBER() OVER(PARTITION BY name, surname ORDER BY name, surname) rownum FROM test_deleted)
 INSERT INTO test SELECT name, surname FROM test_inserted WHERE rownum = 1;
-DROP TABLE TEST;
+DROP TABLE test;
