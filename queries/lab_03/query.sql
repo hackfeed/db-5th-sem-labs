@@ -12,32 +12,44 @@ SELECT price, minimum_nights, get_minimal_spendings(minimum_nights, price) FROM 
 -- Подставляемая табличная функция.
 -- Возвращает таблицу вида (имя, цена, соседство, рейтинг) 
 -- с ценой меньше указанной и указанным соседством.
-CREATE OR REPLACE FUNCTION get_listings_in_neighbourhood_above_price(defined_price DECIMAL, defined_neighbourhood VARCHAR)
-RETURNS TABLE (
-    name VARCHAR, 
+CREATE TABLE typedtbl (
+    name VARCHAR,
     price DECIMAL(6,2),
-    neighbourhood VARCHAR, 
+    neighbourhood VARCHAR,
     rating DECIMAL(4,2)
-) AS $$
+);
+CREATE OR REPLACE FUNCTION get_listings_in_neighbourhood_above_price(_tbl_type ANYELEMENT, defined_price DECIMAL, defined_neighbourhood VARCHAR)
+RETURNS SETOF ANYELEMENT
+AS $$
 BEGIN
     RETURN QUERY
-    SELECT l.name, l.price, l.neighbourhood, n.rating FROM listings l JOIN neighbourhoods n 
+    EXECUTE
+    'SELECT l.name, l.price, l.neighbourhood, n.rating FROM listings l JOIN neighbourhoods n 
     ON l.neighbourhood = n.neighbourhood 
-    WHERE l.price < defined_price AND l.neighbourhood = defined_neighbourhood;
+    WHERE l.price < $1 AND l.neighbourhood = $2'
+    USING defined_price, defined_neighbourhood;
 END;
 $$ LANGUAGE PLPGSQL;  
-SELECT * FROM get_listings_in_neighbourhood_above_price(300, 'Bijlmer-Oost');
+SELECT * FROM get_listings_in_neighbourhood_above_price(NULL::typedtbl, 300, 'Bijlmer-Oost');
 
 -- Многооператорная табличная функция.
 -- Возвращает все жилье, принадлежащее hostname. 
-CREATE OR REPLACE FUNCTION find_host_listings(hostname VARCHAR)
+CREATE OR REPLACE FUNCTION find_host_listings(hostnm VARCHAR)
 RETURNS TABLE (
-    chairman VARCHAR,
-    listing_id INT
+    hostname VARCHAR,
+    listing_id INT,
+    min_money DECIMAL
 ) AS $$
 BEGIN
+    CREATE TEMP TABLE tbl (
+        hostname VARCHAR,
+        listing_id INT,
+        min_money DECIMAL
+    );
+    INSERT INTO tbl (hostname, listing_id, min_money)
+    SELECT hostnm, l.id, l.minimum_nights * l.price FROM listings l WHERE l.host_name = hostnm;
     RETURN QUERY
-    SELECT hostname, l.id FROM listings l WHERE l.host_name = hostname;
+    SELECT * FROM tbl;
 END;
 $$ LANGUAGE PLPGSQL;
 SELECT * FROM find_host_listings('David');
