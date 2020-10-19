@@ -1,0 +1,8 @@
+# Database Course Environment
+# Made by Sergey @hackfeed Kononenko, ICS7-53B, 2020
+
+FROM postgres
+LABEL maintainer="Sergey @hackfeed Kononenko"
+
+RUN apt-get update
+RUN apt-get -y install python3 postgresql-plpython3-13

@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile.app
     container_name: appdbcourse
     command: python app.py
     env_file:
@@ -16,7 +17,9 @@ services:
       - db
 
   db:
-    image: postgres
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     container_name: postgresdbcourse
     env_file:
       - .env
