@@ -175,7 +175,7 @@ BEGIN
         RETURN NULL;
     ELSE
         RAISE NOTICE '% listings left for %', 9 - listingscnt, hostname;
-        INSERT INTO listingsview (
+        INSERT INTO listings (
             id,
             name,
             host_id,
@@ -251,3 +251,4 @@ VALUES (
     1,
     47
 );
+DELETE FROM listings WHERE id = 3210;
