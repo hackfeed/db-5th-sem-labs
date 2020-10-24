@@ -264,3 +264,48 @@ VALUES (
     47
 );
 DELETE FROM listings WHERE id = 3210;
+
+-- Защита.
+-- Написать триггер, который будет в новую таблицу добавлять информацию о том, сколько
+-- записей было вставлено и в какую таблицу они были вставлены.
+CREATE OR REPLACE FUNCTION add_insert_metadata()
+RETURNS TRIGGER
+AS $$
+DECLARE
+    cntbefore INT;
+    cntafter INT;
+BEGIN
+    SELECT COALESCE(SUM(inserted),0) FROM metatable WHERE tablename = 'neighbourhoods' INTO cntbefore;
+    SELECT COALESCE(COUNT(*), 0) FROM neighbourhoods INTO cntafter;
+    INSERT INTO metatable (
+        tablename,
+        inserted
+    )
+    VALUES (
+        'neighbourhoods',
+        cntafter - cntbefore
+    );
+    DELETE FROM metatable WHERE inserted = 0;
+    RETURN NEW;
+END;
+$$ LANGUAGE PLPGSQL;
+CREATE TABLE metatable (
+    tablename VARCHAR,
+    inserted INT
+);
+CREATE TRIGGER neighbourhood_insertion AFTER INSERT ON neighbourhoods
+FOR EACH ROW EXECUTE PROCEDURE add_insert_metadata();
+INSERT INTO neighbourhoods (
+    neighbourhood,
+    rating,
+    chairman,
+    chairman_phone
+)
+VALUES (
+    'Super flexxxччччвфывфыв',
+    10,
+    'Sergey',
+    '(788) 856-4331'
+);
+DELETE FROM neighbourhoods WHERE chairman = 'Sergey';
+DELETE FROM metatable WHERE tablename = 'neighbourhoods';
