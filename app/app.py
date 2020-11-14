@@ -45,14 +45,14 @@ def get_index():
 def post_query():
     """ POST query to execute. """
     query = request.form["query"]
-    query_success, query_result = db.execute_query(g.db, query)
+    query_success, query_result, query_message = db.execute_query(g.db, query)
 
     if not query_success:
         return render_template(
             "index.html",
             message="Bad SQL-query, try again",
             query=query,
-            result=""
+            result=query_message
         )
 
     query_result = "" if query_result is None else query_result

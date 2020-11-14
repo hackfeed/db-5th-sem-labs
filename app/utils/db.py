@@ -35,16 +35,18 @@ def execute_query(conn, query):
 
     query_success = True
     query_result = None
+    query_message = None
 
     cursor = conn.cursor()
     try:
         cursor.execute(query)
-    except:
+    except Exception as e:
+        query_message = str(e)
         query_success = False
         conn.rollback()
         cursor.close()
 
-        return query_success, query_result
+        return query_success, query_result, query_message
 
     if query.lower().startswith("select"):
         query_result = pretty_query(cursor, cursor.fetchall())
@@ -52,4 +54,4 @@ def execute_query(conn, query):
     conn.commit()
     cursor.close()
 
-    return query_success, query_result
+    return query_success, query_result, query_message
