@@ -14,6 +14,7 @@ WITH everyday_best_listings (name, neighbourhood, rating, availability_365) AS (
     WHERE rating > 7 AND availability_365 > 183
 )
 SELECT * FROM everyday_best_listings;
+SELECT DISTINCT name, room_type, AVG(price) OVER(PARTITION BY room_type) AS avg_price FROM listings;
 
 -- Выполнить запрос к метаданным.
 -- Вывести id и лимит подключений к текущей базе данных.

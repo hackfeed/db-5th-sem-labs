@@ -48,7 +48,7 @@ def execute_query(conn, query):
 
         return query_success, query_result, query_message
 
-    if query.lower().startswith("select"):
+    if "select" in query.lower():
         query_result = pretty_query(cursor, cursor.fetchall())
 
     conn.commit()
