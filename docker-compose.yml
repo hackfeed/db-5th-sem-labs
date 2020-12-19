@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+  nifi:
+    image: apache/nifi:latest
+    container_name: nifidbcourse
+    environment:
+      - NIFI_WEB_HTTP_PORT=8080
+    ports:
+      - 8080:8080
+
   app:
     build:
       context: .
