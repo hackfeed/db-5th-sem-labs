@@ -6,6 +6,8 @@ services:
     container_name: nifidbcourse
     environment:
       - NIFI_WEB_HTTP_PORT=8080
+    volumes:
+      - ./queries/lab_08:/opt/nifi/nifi-current/userdata
     ports:
       - 8080:8080
 

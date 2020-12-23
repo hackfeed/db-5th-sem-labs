@@ -133,3 +133,6 @@ data/db
 
 # Data to parse
 dbdata/
+
+# nifi configuration
+nifi/
